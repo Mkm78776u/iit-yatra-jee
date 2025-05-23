@@ -252,19 +252,20 @@
     }
 
     .site-watermark {
-      position: fixed;
-      bottom: 10px;
-      right: 15px;
+      color: #fff;
       font-size: 15px;
-      font-family: 'Poppins', sans-serif;
-      color: rgba(255, 255, 255, 0.75);
-      background: rgba(40, 40, 40, 0.5);
-      padding: 6px 14px;
-      border-radius: 10px;
-      pointer-events: none;
-      z-index: 9999;
-      user-select: none;
-      backdrop-filter: blur(5px);
+      text-align: center;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      pointer-events: auto;
+      user-select: text;
+      margin: 0;
+      padding: 0;
     }
 
     @media (orientation: portrait) {
@@ -324,126 +325,211 @@
       align-items: center;
       min-height: 100vh;
     }
+    .card {
+      background: linear-gradient(to bottom right, #f7f9ff, #e0e6f6);
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .card h2 {
+      color: #3b3bcc;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .card button {
+      background-color: #3b3bcc;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .card button:hover {
+      background-color: #2e2eaa;
+    }
   </style>
 </head>
 <body>
-  <div class="player-container">
-    <div class="loading-spinner"></div>
-    <video id="videoPlayer"></video>
-
-    <div class="controls-container">
-      <div class="progress-container">
-        <div class="progress-bar"></div>
-      </div>
-
-      <div class="main-controls">
-        <div class="left-controls">
-          <button class="control-btn play-btn">▶</button>
-          <button class="control-btn mute-btn">📢</button>
-          <div class="volume-container">
-            <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="1">
-          </div>
-          <div class="time-display">00:00 / 00:00</div>
-        </div>
-
-        <div class="right-controls">
-          <div class="settings-menu">
-            <button class="control-btn settings-btn">⚙️</button>
-            <div class="settings-options">
-              <div class="settings-header">Settings</div>
-              
-              <div class="settings-section main-options">
-                <div class="settings-option settings-category" data-category="speed">
-                  <span>Speed</span>
-                  <span>›</span>
-                </div>
-                <div class="settings-option settings-category" data-category="quality">
-                  <span>Quality</span>
-                  <span>›</span>
-                </div>
-              </div>
-
-              <!-- Speed Options (hidden by default) -->
-              <div class="settings-section speed-options" style="display: none;">
-                <div class="settings-option back-option" data-back="main">
-                  <span>‹ Back to Settings</span>
-                </div>
-                <div class="settings-title">Playback Speed</div>
-                <div class="settings-option" data-speed="0.5">
-                  <span>0.5x</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-speed="0.75">
-                  <span>0.75x</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option active" data-speed="1">
-                  <span>1x (Normal)</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-speed="1.25">
-                  <span>1.25x</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-speed="1.5">
-                  <span>1.5x</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-speed="2">
-                  <span>2x</span>
-                  <span class="checkmark">✓</span>
-                </div>
-              </div>
-
-              <!-- Quality Options (hidden by default) -->
-              <div class="settings-section quality-options" style="display: none;">
-                <div class="settings-option back-option" data-back="main">
-                  <span>‹ Back to Settings</span>
-                </div>
-                <div class="settings-title">Quality</div>
-                <div class="settings-option active" data-quality="auto">
-                  <span>Auto</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-quality="240">
-                  <span>240p</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-quality="360">
-                  <span>360p</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-quality="480">
-                  <span>480p</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-quality="720">
-                  <span>720p</span>
-                  <span class="checkmark">✓</span>
-                </div>
-                <div class="settings-option" data-quality="1080">
-                  <span>1080p</span>
-                  <span class="checkmark">✓</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button class="control-btn fullscreen-btn">⛶</button>
-        </div>
-      </div>
+  <!-- Fullscreen Telegram Ad Overlay -->
+  <div id="telegram-ad" style="
+    position: fixed;
+    z-index: 2000;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw; height: 100vh;
+    background: linear-gradient(to bottom right, #f7f9ff, #e0e6f6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  ">
+    <button id="close-ad" style="
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      background: transparent;
+      border: none;
+      font-size: 32px;
+      color: #3b3bcc;
+      cursor: pointer;
+      z-index: 2100;
+    " title="Close">&times;</button>
+    <div class="card" style="box-shadow: none; background: transparent; max-width: 95vw;">
+      <h2 style="color: #3b3bcc;">Join Our Telegram!</h2>
+      <p style="color: #333;">Get free study material and updates directly in our Telegram group.</p>
+      <button style="margin-top: 10px;" onclick="window.open('https://t.me/+NTSEAWEii9UyMzk1', '_blank')">Join Now</button>
     </div>
   </div>
 
-  <div class="site-watermark"> <p1>made by mithilesh kmwt</p1>
-  <br>
-  <p2>contact: mithileshkmwt@gmail.com</p2></div>
-  <div class="top-bar">
-    <div class="logo">IIT YATRA PLAYER</div>
+  <!-- Main Content (hidden initially) -->
+  <div id="main-content" style="display: none;">
+    <div class="player-container">
+      <div class="loading-spinner"></div>
+      <video id="videoPlayer"></video>
+      <div class="controls-container">
+        <div class="progress-container">
+          <div class="progress-bar"></div>
+        </div>
+
+        <div class="main-controls">
+          <div class="left-controls">
+            <button class="control-btn play-btn">▶</button>
+            <button class="control-btn mute-btn">📢</button>
+            <div class="volume-container">
+              <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="1">
+            </div>
+            <div class="time-display">00:00 / 00:00</div>
+          </div>
+
+          <div class="right-controls">
+            <div class="settings-menu">
+              <button class="control-btn settings-btn">⚙️</button>
+              <div class="settings-options">
+                <div class="settings-header">Settings</div>
+                
+                <div class="settings-section main-options">
+                  <div class="settings-option settings-category" data-category="speed">
+                    <span>Speed</span>
+                    <span>›</span>
+                  </div>
+                  <div class="settings-option settings-category" data-category="quality">
+                    <span>Quality</span>
+                    <span>›</span>
+                  </div>
+                </div>
+
+                <!-- Speed Options (hidden by default) -->
+                <div class="settings-section speed-options" style="display: none;">
+                  <div class="settings-option back-option" data-back="main">
+                    <span>‹ Back to Settings</span>
+                  </div>
+                  <div class="settings-title">Playback Speed</div>
+                  <div class="settings-option" data-speed="0.5">
+                    <span>0.5x</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-speed="0.75">
+                    <span>0.75x</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option active" data-speed="1">
+                    <span>1x (Normal)</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-speed="1.25">
+                    <span>1.25x</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-speed="1.5">
+                    <span>1.5x</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-speed="2">
+                    <span>2x</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                </div>
+
+                <!-- Quality Options (hidden by default) -->
+                <div class="settings-section quality-options" style="display: none;">
+                  <div class="settings-option back-option" data-back="main">
+                    <span>‹ Back to Settings</span>
+                  </div>
+                  <div class="settings-title">Quality</div>
+                  <div class="settings-option active" data-quality="auto">
+                    <span>Auto</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-quality="240">
+                    <span>240p</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-quality="360">
+                    <span>360p</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-quality="480">
+                    <span>480p</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-quality="720">
+                    <span>720p</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                  <div class="settings-option" data-quality="1080">
+                    <span>1080p</span>
+                    <span class="checkmark">✓</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="control-btn fullscreen-btn">⛶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-bar">
+      <div class="logo">IIT YATRA PLAYER</div>
+      <div class="site-watermark">
+        <span>mithileshkmwt@gmail.com</span>
+      </div>
+      <div style="width: 120px;"></div> <!-- Spacer for symmetry, adjust width as needed -->
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
+    // Show ad first, then reveal main content
     document.addEventListener('DOMContentLoaded', function() {
+      const telegramAd = document.getElementById('telegram-ad');
+      const mainContent = document.getElementById('main-content');
+      const closeAd = document.getElementById('close-ad');
+
+      closeAd.addEventListener('click', function() {
+        telegramAd.style.display = 'none';
+        mainContent.style.display = '';
+      });
+
+      // Optionally, auto-close ad after X seconds:
+      // setTimeout(() => { closeAd.click(); }, 8000);
+
+      // ...existing JS code for video player goes here...
+      // Move all your player JS code inside this DOMContentLoaded handler,
+      // after the above code, so it works after mainContent is shown.
+
       const urlParams = new URLSearchParams(window.location.search);
       const videoURL = urlParams.get('videoURL');
       if (!videoURL) {
