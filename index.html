@@ -360,6 +360,15 @@
     .card button:hover {
       background-color: #2e2eaa;
     }
+
+    .gmail-icon-link {
+      margin-left: 20px;
+      margin-right: 0;
+      transition: opacity 0.2s;
+    }
+    .gmail-icon-link:hover {
+      opacity: 0.7;
+    }
   </style>
 </head>
 <body>
@@ -503,10 +512,13 @@
 
     <div class="top-bar">
       <div class="logo">IIT YATRA PLAYER</div>
-      <div class="site-watermark">
-        <span>mithileshkmwt@gmail.com</span>
+      <div style="flex:1"></div>
+      <div style="flex-basis: 75%; display: flex; justify-content: flex-end;">
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mithileshkmwt@gmail.com" target="_blank" title="Contact via Gmail" class="gmail-icon-link" style="display: flex; align-items: center;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png"
+               alt="Gmail" style="width:32px;height:32px;display:block;">
+        </a>
       </div>
-      <div style="width: 120px;"></div> <!-- Spacer for symmetry, adjust width as needed -->
     </div>
   </div>
 
